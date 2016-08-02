@@ -10,9 +10,5 @@
                             "Remove whatever can harm you at that very moment" \
                             "Divert your mind, do anything to change the
                             subject."
-            reprompt_text = "Reach out for help. Call a friend, loved one " \
-                            "or the suicide hotline (1-800-273-8255)." \
-                            "Remove whatever can harm you at that very moment" \
-                            "Divert your mind, do anything to change the
-                            subject."
+            reprompt_text = "The suicide hotline number is 1-800-273-8255"
 
