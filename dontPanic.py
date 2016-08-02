@@ -65,10 +65,10 @@ def on_intent(intent_request, session):
     intent_name = intent_request['intent']['name']
 
     # Dispatch to your skill's intent handlers
-    if intent_name == "MyColorIsIntent":
-        return set_color_in_session(intent, session)
-    elif intent_name == "WhatsMyColorIntent":
-        return get_color_from_session(intent, session)
+    if intent_name == "MyConditionIsIntent":
+        return set_condition_in_session(intent, session)
+    elif intent_name == "WhatsMyConditionIntent":
+        return get_condition_from_session(intent, session)
     elif intent_name == "AMAZON.HelpIntent":
         return get_welcome_response()
     elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":
@@ -96,13 +96,11 @@ def get_welcome_response():
 
     session_attributes = {}
     card_title = "Welcome"
-    speech_output = "Welcome to the Alexa Skills Kit sample. " \
-                    "Please tell me your favorite color by saying, " \
-                    "my favorite color is red"
-    # If the user either does not reply to the welcome message or says something
+    speech_output = "Welcome to Don't Panic. " \
+                    "Please tell me your condition or emergency, "
     # that is not understood, they will be prompted again with this text.
-    reprompt_text = "Please tell me your favorite color by saying, " \
-                    "my favorite color is red."
+    reprompt_text = "Welcome to Don't Panic. " \
+                    "Please tell me your condition or emergency, "
     should_end_session = False
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
@@ -110,7 +108,7 @@ def get_welcome_response():
 
 def handle_session_end_request():
     card_title = "Session Ended"
-    speech_output = "Thank you for trying the Alexa Skills Kit sample. " \
+    speech_output = "Thank you for using Don't Panic. " \
                     "Have a nice day! "
     # Setting this to true ends the session and exits the skill.
     should_end_session = True
@@ -118,8 +116,8 @@ def handle_session_end_request():
         card_title, speech_output, None, should_end_session))
 
 
-def set_color_in_session(intent, session):
-    """ Sets the color in the session and prepares the speech to reply to the
+def set_condition_in_session(intent, session):
+    """ Sets the condition in the session and prepares the speech to reply to the
     user.
     """
 
@@ -128,56 +126,74 @@ def set_color_in_session(intent, session):
     should_end_session = False
 
     if 'Condition' in intent['slots']:
-        favorite_color = intent['slots']['Condition']['value']
-        session_attributes = create_favorite_color_attributes(favorite_color)
-        if favorite_color == 'seizure':
+        selected_condition = intent['slots']['Condition']['value']
+        session_attributes = create_selected_condition_attributes(selected_condition)
+        if selected_condition == 'seizure':
             speech_output = "For a " + \
-                            favorite_color + \
+                            selected_condition + \
                             ". You can do the following, " \
                             "place a pillow under your head."
-            reprompt_text = "You can ask me your favorite color by saying, " \
-                            "what's my favorite color?"
-        elif (favorite_color == 'panic attack') or (favorite_color == 'panicking'):
-            speech_output = "<speak> For " + \
-                            (favorite_color if (favorite_color == 'panicking') else ('a ' + favorite_color)) + \
+            reprompt_text = "For a " + \
+                            selected_condition + \
+                            ". You can do the following, " \
+                            "place a pillow under your head."
+        elif (selected_condition == 'panic attack') or (selected_condition == 'panicking'):
+            speech_output = "For " + \
+                            (selected_condition if (selected_condition == 'panicking') else ('a ' + selected_condition)) + \
                             ", Begin to slow your breathing down; aim for " \
                             "a maximum of 8 breaths per minute. " \
                             "Inhale 1, and, 2, and, 3, and, 4, and, hold the breath for" \
                             "1, and, 2, and, exhale 1, and, 2, and, 3, and, 4, and Continue " \
-                            "deep breathing this way for several minutes. </speak>"
+                            "deep breathing this way for several minutes."
             reprompt_text = "Inhale 1, and, 2, and, 3, and, 4, and hold the breath for " \
                             "1, and, 2 exhale 1, and, 2, and, 3, and, 4, and, Continue " \
                             "deep breathing this way for several minutes."
-        elif favorite_color == 'my water broke':
-            speech_output = "go to the doctor."
-            reprompt_text = "You can ask me your favorite color by saying, " \
-                            "what's my favorite color?"
+        elif selected_condition == 'water broke':
+            speech_output = "Go to the Hospital. If you are not in the hospital " \
+                            "in active labor when your water breaks:" \
+                            "Make a note of what time your membranes " \
+                            "ruptured because your providers will want to " \
+                            "know this information." \
+                            "Don't put anything in your vagina to try to check " \
+                            "yourself or you could introduce infection." \
+                            "You should consult your doctor or midwife and/or " \
+                            "go to the hospital shortly thereafter." \
+                            "Go to the hospital even if you are just leaking " \
+                            "fluid and you are not sure if your water broke." \
+                            "Go immediately if you are preterm (less than 37 " \
+                            "weeks); especially if you are less than 34 weeks." \
+                            "Look at the color of the amniotic fluid, which " \
+                            "should be clear whitish or straw colored. Go " \
+                            "immediately to the hospital if the fluid is:" \
+                            "Dark or greenish (meconium staining), indicating " \
+                            "the baby moved his/her bowel. Bloody throughout, " \
+                            "which could indicate risk of placental abruption " \
+                            "Foul-smelling, indicating an infection. Take Calm Action"
+            reprompt_text = "go to the doctor."
     else:
-        speech_output = "I'm not sure what your favorite color is. " \
+        speech_output = "I'm not sure what your condition or emergency is. " \
                         "Please try again."
-        reprompt_text = "I'm not sure what your favorite color is. " \
-                        "You can tell me your favorite color by saying, " \
-                        "my favorite color is red."
+        reprompt_text = "I'm not sure what your condition or emergency is " \
+                        "Please try again."
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
 
-def create_favorite_color_attributes(favorite_color):
-    return {"favoriteColor": favorite_color}
+def create_selected_condition_attributes(selected_condition):
+    return {"currentCondition": selected_condition}
 
 
-def get_color_from_session(intent, session):
+def get_condition_from_session(intent, session):
     session_attributes = {}
     reprompt_text = None
 
-    if session.get('attributes', {}) and "favoriteColor" in session.get('attributes', {}):
-        favorite_color = session['attributes']['favoriteColor']
-        speech_output = "Your favorite color is " + favorite_color + \
+    if session.get('attributes', {}) and "currentCondition" in session.get('attributes', {}):
+        selected_condition = session['attributes']['currentCondition']
+        speech_output = "Your condition is " + selected_condition + \
                         ". Goodbye."
         should_end_session = True
     else:
-        speech_output = "I'm not sure what your favorite color is. " \
-                        "You can say, my favorite color is red."
+        speech_output = "I'm not sure what your condition or emergency is. " 
         should_end_session = False
 
     # Setting reprompt_text to None signifies that we do not want to reprompt
