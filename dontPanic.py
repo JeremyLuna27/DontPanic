@@ -142,11 +142,11 @@ def set_color_in_session(intent, session):
                             (favorite_color if (favorite_color == 'panicking') else ('a ' + favorite_color)) + \
                             ", Begin to slow your breathing down; aim for " \
                             "a maximum of 8 breaths per minute. " \
-                            "Inhale 1 <break time='0.5s'/>, 2 <break time='0.5s'/> , 3 <break time='0.5s'/>, 4 <break time='0.5s'/>, hold the breath for" \
-                            "1<break time='0.5s'/> 2<break time='0.5s'/> 3<break time='0.5s'/> and exhale 1<break time='0.5s'/> 2<break time='0.5s'/> 3<break time='0.5s'/> 4<break time='0.5s'/> Continue " \
+                            "Inhale 1, and, 2, and, 3, and, 4, and, hold the breath for" \
+                            "1, and, 2, and, exhale 1, and, 2, and, 3, and, 4, and Continue " \
                             "deep breathing this way for several minutes. </speak>"
-            reprompt_text = "Inhale 1<break time='0.5s'/> 2<break time='0.5s'/> 3<break time='0.5s'/> 4<break time='0.5s'/> hold the breath for " \
-                            "1<break time='0.5s'/> 2<break time='0.5s'/> 3<break time='0.5s'/> and exhale 1<break time='0.5s'/> 2<break time='0.5s'/> 3<break time='0.5s'/> 4<break time='0.5s'/> Continue " \
+            reprompt_text = "Inhale 1, and, 2, and, 3, and, 4, and hold the breath for " \
+                            "1, and, 2 exhale 1, and, 2, and, 3, and, 4, and, Continue " \
                             "deep breathing this way for several minutes."
         elif favorite_color == 'my water broke':
             speech_output = "go to the doctor."
