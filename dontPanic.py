@@ -65,10 +65,10 @@ def on_intent(intent_request, session):
     intent_name = intent_request['intent']['name']
 
     # Dispatch to your skill's intent handlers
-    if intent_name == "MyColorIsIntent":
-        return set_color_in_session(intent, session)
-    elif intent_name == "WhatsMyColorIntent":
-        return get_color_from_session(intent, session)
+    if intent_name == "MyConditionIsIntent":
+        return set_condition_in_session(intent, session)
+    elif intent_name == "WhatsMyConditionIntent":
+        return get_condition_from_session(intent, session)
     elif intent_name == "AMAZON.HelpIntent":
         return get_welcome_response()
     elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":
@@ -116,8 +116,8 @@ def handle_session_end_request():
         card_title, speech_output, None, should_end_session))
 
 
-def set_color_in_session(intent, session):
-    """ Sets the color in the session and prepares the speech to reply to the
+def set_condition_in_session(intent, session):
+    """ Sets the condition in the session and prepares the speech to reply to the
     user.
     """
 
@@ -138,18 +138,46 @@ def set_color_in_session(intent, session):
                             ". You can do the following, " \
                             "place a pillow under your head."
         elif (selected_condition == 'panic attack') or (selected_condition == 'panicking'):
+<<<<<<< HEAD
             speech_output = "<speak> For " + \
+=======
+            speech_output = "For " + \
+>>>>>>> e65897ba827e9642f6ec35e493c2d0b0f3b12485
                             (selected_condition if (selected_condition == 'panicking') else ('a ' + selected_condition)) + \
                             ", Begin to slow your breathing down; aim for " \
                             "a maximum of 8 breaths per minute. " \
                             "Inhale 1, and, 2, and, 3, and, 4, and, hold the breath for" \
                             "1, and, 2, and, exhale 1, and, 2, and, 3, and, 4, and Continue " \
-                            "deep breathing this way for several minutes. </speak>"
+                            "deep breathing this way for several minutes."
             reprompt_text = "Inhale 1, and, 2, and, 3, and, 4, and hold the breath for " \
                             "1, and, 2 exhale 1, and, 2, and, 3, and, 4, and, Continue " \
                             "deep breathing this way for several minutes."
+<<<<<<< HEAD
         elif selected_condition == 'my water broke':
             speech_output = "go to the doctor."
+=======
+        elif selected_condition == 'water broke':
+            speech_output = "Go to the Hospital. If you are not in the hospital " \
+                            "in active labor when your water breaks:" \
+                            "Make a note of what time your membranes " \
+                            "ruptured because your providers will want to " \
+                            "know this information." \
+                            "Don't put anything in your vagina to try to check " \
+                            "yourself or you could introduce infection." \
+                            "You should consult your doctor or midwife and/or " \
+                            "go to the hospital shortly thereafter." \
+                            "Go to the hospital even if you are just leaking " \
+                            "fluid and you are not sure if your water broke." \
+                            "Go immediately if you are preterm (less than 37 " \
+                            "weeks); especially if you are less than 34 weeks." \
+                            "Look at the color of the amniotic fluid, which " \
+                            "should be clear whitish or straw colored. Go " \
+                            "immediately to the hospital if the fluid is:" \
+                            "Dark or greenish (meconium staining), indicating " \
+                            "the baby moved his/her bowel. Bloody throughout, " \
+                            "which could indicate risk of placental abruption " \
+                            "Foul-smelling, indicating an infection. Take Calm Action"
+>>>>>>> e65897ba827e9642f6ec35e493c2d0b0f3b12485
             reprompt_text = "go to the doctor."
     else:
         speech_output = "I'm not sure what your condition or emergency is. " \
@@ -161,21 +189,34 @@ def set_color_in_session(intent, session):
 
 
 def create_selected_condition_attributes(selected_condition):
+<<<<<<< HEAD
     return {"favoriteColor": selected_condition}
+=======
+    return {"currentCondition": selected_condition}
+>>>>>>> e65897ba827e9642f6ec35e493c2d0b0f3b12485
 
 
-def get_color_from_session(intent, session):
+def get_condition_from_session(intent, session):
     session_attributes = {}
     reprompt_text = None
 
+<<<<<<< HEAD
     if session.get('attributes', {}) and "favoriteColor" in session.get('attributes', {}):
         selected_condition = session['attributes']['favoriteColor']
+=======
+    if session.get('attributes', {}) and "currentCondition" in session.get('attributes', {}):
+        selected_condition = session['attributes']['currentCondition']
+>>>>>>> e65897ba827e9642f6ec35e493c2d0b0f3b12485
         speech_output = "Your condition is " + selected_condition + \
                         ". Goodbye."
         should_end_session = True
     else:
+<<<<<<< HEAD
         speech_output = "I'm not sure what your condition or emergency is. " \
                         "You can say, my favorite color is red."
+=======
+        speech_output = "I'm not sure what your condition or emergency is. " 
+>>>>>>> e65897ba827e9642f6ec35e493c2d0b0f3b12485
         should_end_session = False
 
     # Setting reprompt_text to None signifies that we do not want to reprompt
